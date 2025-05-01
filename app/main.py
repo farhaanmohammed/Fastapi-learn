@@ -5,13 +5,16 @@ from contextlib import asynccontextmanager
 from alembic import command
 from app.routers import user,auth,posts
 from alembic.config import Config
-from starlette.exceptions import HTTPException
-from fastapi.exceptions import RequestValidationError
-from .exception_handlers  import request_validation_exception_handler, http_exception_handler, unhandled_exception_handler
-from .middleware import log_request_middleware
+import logging
 
+# Setup logging early
+logging.basicConfig(
+    level=logging.DEBUG,  # Use DEBUG for full logs
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
+)
 
-
+logger = logging.getLogger(__name__)
+logger.debug("Logging is configured")
 
 async def run_migrations():
     config = Config("alembic.ini")
@@ -25,10 +28,13 @@ async  def lifespan(app_: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.middleware("http")(log_request_middleware)
-app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
-app.add_exception_handler(HTTPException, http_exception_handler)
-app.add_exception_handler(Exception, unhandled_exception_handler)
+@app.get("/")
+def read_root():
+    logger.info("Root path accessed")
+    print("This is a print statement")
+    return {"message": "Hello"}
+
+
 
 app.include_router(user.router)
 app.include_router(auth.router)

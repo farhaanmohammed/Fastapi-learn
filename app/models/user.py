@@ -14,8 +14,12 @@ class User(SQLModel,table=True):
     posts: list["Posts"] = Relationship(back_populates="user")
 
     def __init__(self,**kwargs):
+        print("not")
+        raw_password = kwargs.pop("hashed_password")
+        print("hwe")
         super().__init__(**kwargs)
-        self.hashed_password = pwd_context.hash(self.hashed_password)
+        if raw_password:
+            self.hashed_password = pwd_context.hash(raw_password)
 
 
     def verify_password(self,plain_password:str)->bool:

@@ -1,0 +1,13 @@
+[project]
+name = "fast-porject"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.15.2",
+    "fastapi[standard]>=0.115.12",
+    "passlib[bcrypt]>=1.7.4",
+    "psycopg2-binary>=2.9.10",
+    "sqlmodel>=0.0.24",
+]

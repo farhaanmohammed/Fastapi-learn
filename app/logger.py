@@ -1,8 +1,11 @@
 import logging
+import sys
 
-# Disable uvicorn access logger
-uvicorn_access = logging.getLogger("uvicorn.access")
-uvicorn_access.disabled = True
-
-logger = logging.getLogger("uvicorn")
-logger.setLevel(logging.getLevelName(logging.DEBUG))
+def setup_logging():
+    logging.basicConfig(
+        level=logging.DEBUG,  # Change to DEBUG for more verbosity
+        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        handlers=[
+            logging.StreamHandler(sys.stdout),
+        ],
+    )

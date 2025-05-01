@@ -3,10 +3,18 @@ from datetime import datetime
 from typing import Optional
 
 class CreatePost(BaseModel):
-    id: int
+
     user: Optional[int]
     title: str
     body : Optional[str]
 
-class Posts(CreatePost):
+class ReadPosts(BaseModel):
+    id: int
     date: datetime
+    user_id: Optional[int]
+    title: str
+    body: Optional[str]
+
+class UpdatePost(BaseModel):
+    title: Optional[str] = None
+    body: Optional[str] = None
