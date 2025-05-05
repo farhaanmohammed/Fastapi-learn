@@ -3,7 +3,7 @@ from fastapi import Depends
 from typing import Annotated
 
 
-DATABASE_URL = "postgresql://postgres:postgres@localhost/FAST_API"
+DATABASE_URL = "postgresql://postgres:hello123@localhost/FAST_API"
 
 engine = create_engine(DATABASE_URL, echo=True)
 

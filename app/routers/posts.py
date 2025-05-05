@@ -5,16 +5,14 @@ from ..models.posts import Posts
 from datetime import datetime
 from sqlmodel import select
 from ..models.user import User
-import logging
+from loguru import logger
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # Optional, for safety
-logger.debug("posts logger initialized")
 
 router = APIRouter(prefix="/posts",tags=["Posts"])
 
-@router.post("/create-posts",response_model=ReadPosts)
+@router.post("/create-post",response_model=ReadPosts)
 def create_posts(create_post:CreatePost,session: SessionDep):
+    logger.info("Logger initialized from posts")
     user = None
     if create_post.user:
         statement = select(User).where(User.id==create_post.user)
@@ -23,13 +21,13 @@ def create_posts(create_post:CreatePost,session: SessionDep):
             raise HTTPException(status_code=400, detail="User not found")
         user = create_post.user
 
-
     post = Posts(
         user_id = user,
         title = create_post.title,
         body = create_post.body,
         date=datetime.now()
     )
+    logger.info(f"created:post:{post}")
     try:
         session.add(post)
         session.commit()
@@ -50,9 +48,7 @@ def get_all_posts(session:SessionDep):
 def get_post(post_id:int,session:SessionDep):
     if not post_id :
         raise HTTPException(status_code=400,detail="Id not provided")
-    print(f"post_id;{post_id}")
-    post = session.get(Posts, post_id)
-    print(f"post;{post}")
+    post = session.ge(Posts, post_id)
     if not post:
         raise HTTPException(status_code=404,detail="Post not found")
 

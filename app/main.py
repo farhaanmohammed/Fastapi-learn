@@ -5,16 +5,8 @@ from contextlib import asynccontextmanager
 from alembic import command
 from app.routers import user,auth,posts
 from alembic.config import Config
-import logging
+from loguru import logger
 
-# Setup logging early
-logging.basicConfig(
-    level=logging.DEBUG,  # Use DEBUG for full logs
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-)
-
-logger = logging.getLogger(__name__)
-logger.debug("Logging is configured")
 
 async def run_migrations():
     config = Config("alembic.ini")
@@ -27,10 +19,11 @@ async  def lifespan(app_: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+logger.info("App started")
 
 @app.get("/")
-def read_root():
-    logger.info("Root path accessed")
+async def read_root():
+    logger.info("Hello")
     print("This is a print statement")
     return {"message": "Hello"}
 

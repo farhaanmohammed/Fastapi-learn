@@ -6,8 +6,11 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "alembic>=1.15.2",
-    "fastapi[standard]>=0.115.12",
+    "fastapi>=0.115.12",
+    "loguru>=0.7.3",
     "passlib[bcrypt]>=1.7.4",
     "psycopg2-binary>=2.9.10",
+    "pydantic[email]>=2.11.3",
     "sqlmodel>=0.0.24",
+    "uvicorn>=0.34.2",
 ]

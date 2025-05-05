@@ -4,7 +4,7 @@ from typing import Optional
 
 class CreatePost(BaseModel):
 
-    user: Optional[int]
+    user: Optional[int] = None
     title: str
     body : Optional[str]
 
